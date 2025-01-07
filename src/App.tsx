@@ -2,6 +2,7 @@ import './App.css'
 import { useState } from 'react'
 import { v1 } from 'uuid'
 import { TodolistItem } from './TodolistItem'
+import { CreateItemForm } from './CreateItemForm'
 
 export type Task = {
   id: string
@@ -43,6 +44,7 @@ export const App = () => {
       { id: v1(), title: 'Cola', isDone: true },
       { id: v1(), title: 'Ice', isDone: false },
     ],
+
   })
 
 
@@ -77,6 +79,12 @@ export const App = () => {
     delete tasks[todolistId]
   }
 
+  const createTodolist = (title: string) => {
+    const todolistId = v1()
+    const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
+    setTodolists([...todolists, newTodolist])
+    setTasks({...tasks, [todolistId]: []})
+  }
 
   // UI
 
@@ -111,6 +119,7 @@ export const App = () => {
 
   return (
     <div className="app">
+      <CreateItemForm createItem={createTodolist}/>
       {todolistsComponents}
     </div>
   )
