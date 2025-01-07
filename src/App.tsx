@@ -48,6 +48,9 @@ export const App = () => {
   })
 
 
+
+
+  //task
   const deleteTask = (taskId: string, todolistId: string) => {
     setTasks({
       ...tasks,
@@ -70,10 +73,15 @@ export const App = () => {
     })
   }
 
-  const changeTodolistFilter = (filter: FilterValues, todolistId: string) => {
-    setTodolists(todolists.map(tl => tl.id === todolistId ? { ...tl, filter } : tl))
+  /* update title status */
+  const changeTaskTitle = (taskId: string, title: string, todolistId: string) => {
+    setTasks({
+      ...tasks,
+      [todolistId]: tasks[todolistId].map(t => t.id == taskId ? { ...t, title } : t)
+    })
   }
-
+  
+  //todolist
   const deleteTodolist = (todolistId: string) => {
     setTodolists(todolists.filter(tl => tl.id !== todolistId))
     delete tasks[todolistId]
@@ -85,6 +93,16 @@ export const App = () => {
     setTodolists([...todolists, newTodolist])
     setTasks({...tasks, [todolistId]: []})
   }
+
+   //U1
+   const changeTodolistFilter = (filter: FilterValues, todolistId: string) => {
+    setTodolists(todolists.map(tl => tl.id === todolistId ? { ...tl, filter } : tl))
+  }
+ //U2
+  const changeTodolistTitle = (todolistId: string, title: string) => {
+    setTodolists(todolists.map(tl => tl.id === todolistId ? { ...tl, title } : tl))
+  }
+
 
   // UI
 
@@ -113,6 +131,8 @@ export const App = () => {
 
         changeTodolistFilter={changeTodolistFilter}
         deleteTodolist={deleteTodolist}
+        changeTaskTitle ={changeTaskTitle}
+        changeTodolistTitle={changeTodolistTitle}
       />
     )
   })
