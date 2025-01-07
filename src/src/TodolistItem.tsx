@@ -3,7 +3,6 @@ import type {FilterValues, Task} from './App'
 import {Button} from './Button'
 
 type Props = {
-  todolistId: string
   title: string
   filter: FilterValues
   tasks: Task[]
@@ -13,23 +12,17 @@ type Props = {
   changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
 
   changeTodolistFilter: (filter: FilterValues, todolistId: string) => void
-  deleteTodolist: (todolistId: string) => void
 }
 
 export const TodolistItem = (props: Props) => {
   const {
-    todolistId,
     title,
-    filter,
     tasks,
     deleteTask,
-    
+    changeTodolistFilter,
     createTask,
     changeTaskStatus,
-
-    changeTodolistFilter,
-    deleteTodolist
-    
+    filter,
   } = props
 
   const [taskTitle, setTaskTitle] = useState('')
@@ -38,7 +31,7 @@ export const TodolistItem = (props: Props) => {
   const createTaskHandler = () => {
     const trimmedTitle = taskTitle.trim()
     if (trimmedTitle !== '') {
-      createTask(trimmedTitle, todolistId)
+      createTask(trimmedTitle)
       setTaskTitle('')
     } else {
       setError('Title is required')
@@ -56,15 +49,9 @@ export const TodolistItem = (props: Props) => {
     }
   }
 
-  const deleteTodoListHandler = () => deleteTodolist
-  (todolistId) 
-
-
   return (
       <div>
-        <h3>{title}
-          <Button title="x" onClick={deleteTodoListHandler}/>
-        </h3>
+        <h3>{title}</h3>
         <div>
           <input className={error ? 'error' : ''}
                  value={taskTitle}
@@ -79,12 +66,12 @@ export const TodolistItem = (props: Props) => {
             <ul>
               {tasks.map(task => {
                 const deleteTaskHandler = () => {
-                  deleteTask(task.id, todolistId)
+                  deleteTask(task.id)
                 }
 
                 const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                   const newStatusValue = e.currentTarget.checked
-                  changeTaskStatus(task.id, newStatusValue, todolistId)
+                  changeTaskStatus(task.id, newStatusValue)
                 }
 
                 return (
@@ -101,13 +88,13 @@ export const TodolistItem = (props: Props) => {
         <div>
           <Button className={filter === 'all' ? 'active-filter' : ''}
                   title={'All'}
-                  onClick={() => changeTodolistFilter('all', todolistId)}/>
+                  onClick={() => changeFilter('all')}/>
           <Button className={filter === 'active' ? 'active-filter' : ''}
                   title={'Active'}
-                  onClick={() => changeTodolistFilter('active', todolistId)}/>
+                  onClick={() => changeFilter('active')}/>
           <Button className={filter === 'completed' ? 'active-filter' : ''}
                   title={'Completed'}
-                  onClick={() => changeTodolistFilter('completed', todolistId)}/>
+                  onClick={() => changeFilter('completed')}/>
         </div>
       </div>
   )

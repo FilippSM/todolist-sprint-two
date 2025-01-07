@@ -93,21 +93,21 @@ export const App = () => {
 
     return (
       <TodolistItem
-        key={tl.id}
-        todolistId={tl.id}
         title={tl.title}
         filter={tl.filter}
         tasks={filteredTasks}
 
         deleteTask={deleteTask}
+        changeTodolistFilter={changeTodolistFilter}
         createTask={createTask}
         changeTaskStatus={changeTaskStatus}
-
-        changeTodolistFilter={changeTodolistFilter}
-        deleteTodolist={deleteTodolist}
       />
     )
   })
+
+
+
+  
 
   return (
     <div className="app">
