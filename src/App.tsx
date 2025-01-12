@@ -4,6 +4,13 @@ import { v1 } from 'uuid'
 import { TodolistItem } from './TodolistItem'
 import { CreateItemForm } from './CreateItemForm'
 
+
+/*
+  выносим логику создания для создания тудулистов/тасок в отдельную компоненту addItemForm
+  из addItemForm убираем id и делаем функцию оьертку в todolistitem и там передвем id
+  добавляем в app функцию добавления тудулистов createTodolist и туда добавить добавления массива тасок
+ */
+
 export type Task = {
   id: string
   title: string
