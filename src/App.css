@@ -1,15 +1,17 @@
 .app {
-  padding: 30px;
   display: flex;
+  flex-direction: column;
+  width: 100vw;
 }
 
-.app > div {
+/* .app > div {
   margin-right: 50px;
-}
+} */
 
 .container {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .error {

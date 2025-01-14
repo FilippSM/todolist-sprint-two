@@ -3,8 +3,10 @@ import type { FilterValues, Task, Todolist } from './App'
 // import { Button } from './Button'
 import { CreateItemForm } from './CreateItemForm'
 import { EditableSpan } from './EditableSpan'
-import { Button, Checkbox, IconButton, List, ListItem, ListItemIcon } from '@mui/material'
+import { Box, Button, Checkbox, IconButton, List, ListItem, ListItemIcon, Typography } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { containerSx, getListItemSx } from './TodolistItem.styles'
 
 type Props = {
   todolist: Todolist
@@ -65,14 +67,16 @@ export const TodolistItem = (props: Props) => {
   return (
     <div>
       <div className={'container'}>
-        <h3>
-          <EditableSpan title={title} changeTitle={changeTodolistTitleHandler} />
-        </h3>
-        <IconButton
-          color="secondary"
-          onClick={deleteTodolistHandler}>
-          <DeleteForeverIcon />
-        </IconButton>
+        
+          <Typography variant="h5" align={"center"} sx={{fontWeight: 700}}>
+            <EditableSpan title={title} changeTitle={changeTodolistTitleHandler} />
+          </Typography>
+          <IconButton
+            color="secondary"
+            onClick={deleteTodolistHandler}>
+            <DeleteForeverIcon />
+          </IconButton>
+        
       </div>
       <CreateItemForm createItem={createTaskHandler} />
       {/* <div>
@@ -103,7 +107,7 @@ export const TodolistItem = (props: Props) => {
             return (
               <ListItem
                 divider
-                key={task.id} className={task.isDone ? 'is-done' : ''}
+                key={task.id}
                 secondaryAction={
                   <IconButton
                     color="secondary"
@@ -121,9 +125,9 @@ export const TodolistItem = (props: Props) => {
                 </ListItemIcon>
 
 
-
-                <EditableSpan title={task.title} changeTitle={changeTaskTitleHandler} />
-                {/* <Button title={'x'} onClick={deleteTaskHandler} /> */}
+                <Box sx={getListItemSx(task.isDone)}>
+                  <EditableSpan title={task.title} changeTitle={changeTaskTitleHandler} />
+                </Box>
 
 
               </ListItem>
@@ -131,7 +135,7 @@ export const TodolistItem = (props: Props) => {
           })}
         </List>
       )}
-      <div>
+      <Box sx={containerSx}>
         <Button
           variant="contained"
           color={filter === 'all' ? 'secondary' : 'primary'}
@@ -150,7 +154,7 @@ export const TodolistItem = (props: Props) => {
           onClick={() => changeFilterHandler('completed')} >
           Completed
         </Button>
-      </div>
+      </Box>
     </div >
   )
 }
