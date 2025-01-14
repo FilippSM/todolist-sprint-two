@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 
 type Props = {
@@ -6,34 +7,31 @@ type Props = {
 }
 
 export const EditableSpan = ({ title, changeTitle }: Props) => {
-    const [isEditMode, setisEditMode] = useState(false)
+
+    const [isEditMode, setIsEditMode] = useState(false)
     const [itemTitle, setItemTitle] = useState(title)
 
-    const OnEditMode = () => {
-        setisEditMode(true)
-        changeTitle(title)
+    const onEditMode = () => {
+        setIsEditMode(true)
     }
 
-    const OffEditMode = () => {
-        setisEditMode(false)
+    const offEditMode = () => {
+        setIsEditMode(false)
         changeTitle(itemTitle)
     }
-
-
-
     const changeItemTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setItemTitle(event.currentTarget.value)
-        }
+    }
+
     return (
-        
         isEditMode
-        
-            ? <input 
-                onChange={changeItemTitleHandler}
-                autoFocus
+            ? <TextField
+                variant="standard"
                 value={itemTitle}
-                onBlur={OffEditMode}
+                autoFocus
+                onChange={changeItemTitleHandler}
+                onBlur={offEditMode}
             />
-            : <span onDoubleClick={OnEditMode}>{title}</span>
+            : <span onDoubleClick={onEditMode}>{title}</span>
     )
 }
