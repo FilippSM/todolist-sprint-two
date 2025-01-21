@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import { expect, test, beforeEach } from 'vitest'
 import type { Todolist } from '../App'
-import { ChangeTodolistTitleAC, CreateTodolistAC, DeleteTodolistAC, todolistsReducer } from './todolists-reducer'
+import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, CreateTodolistAC, DeleteTodolistAC, todolistsReducer } from './todolists-reducer'
 
 let startState: Todolist[]; // Объявляем переменную на уровне модуля
 
@@ -67,4 +67,12 @@ test('correct todolist should change its title', () => {
    
     expect(endState[0].title).toBe('What to learn')
     expect(endState[1].title).toBe(title)
+  })
+
+  test('correct todolist should change its filter', () => {
+    const filter = 'completed'
+    const endState = todolistsReducer(startState, ChangeTodolistFilterAC({id: startState[1].id, filter}))
+   
+    expect(endState[0].filter).toBe('all')
+    expect(endState[1].filter).toBe(filter)
   })
