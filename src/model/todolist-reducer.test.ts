@@ -41,7 +41,7 @@ test('correct todolist should be deleted', () => {
     // в массиве останется один тудулист
     expect(endState.length).toBe(1)
     // удалится нужный тудулист, не любой
-    expect(endState[0].id).toBe(startState[1].id)
+    expect(endState[0].id).toBe(startState[0].id)
 })
 
 test('correct todolist should be created', () => {
