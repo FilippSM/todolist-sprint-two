@@ -13,6 +13,7 @@ import { NavButton } from './NavButton'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, amber } from '@mui/material/colors';
 import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, CreateTodolistAC, DeleteTododlistAC, todolistsReducer } from './model/todolists-reducer'
+import { DeleteTaskAC, tasksReducer } from './model/tasks-reducer'
 
 export type Todolist = {
   id: string
@@ -42,7 +43,7 @@ export const App = () => {
 
   const [todolists, dispatchTodolists] = useReducer(todolistsReducer, initialState)
 
-  const [tasks, setTasks] = useState<TasksState>({
+/*   const [tasks, setTasks] = useState<TasksState>({
     [todolistId1]: [
       { id: v1(), title: 'HTML&CSS', isDone: true },
       { id: v1(), title: 'JS', isDone: true },
@@ -53,7 +54,23 @@ export const App = () => {
       { id: v1(), title: 'GraphQL', isDone: false },
       { id: v1(), title: 'GraphQL', isDone: false },
     ],
-  })
+  }) */
+
+  const initialStateTasks: TasksState =  {
+    [todolistId1]: [
+      { id: v1(), title: 'HTML&CSS', isDone: true },
+      { id: v1(), title: 'JS', isDone: true },
+      { id: v1(), title: 'ReactJS', isDone: false },
+    ],
+    [todolistId2]: [
+      { id: v1(), title: 'Rest API', isDone: true },
+      { id: v1(), title: 'GraphQL', isDone: false },
+      { id: v1(), title: 'GraphQL', isDone: false },
+    ],
+  }
+
+  const [tasks, dispatchTask] = useReducer(tasksReducer, initialStateTasks)
+
   // tasks
   // C
   const createTask = (todolistId: string, title: string) => {
@@ -72,8 +89,12 @@ export const App = () => {
   }
 
   // D
-  const deleteTask = (todolistId: string, taskId: string) => {
+/*   const deleteTask = (todolistId: string, taskId: string) => {
     setTasks({ ...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId) })
+  } */
+  const deleteTask = (todolistId: string, taskId: string) => {
+    const action = DeleteTaskAC({todolistId, taskId})
+    dispatchTask(action)
   }
 
   //todolists
