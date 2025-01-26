@@ -13,7 +13,7 @@ import { NavButton } from './NavButton'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, amber } from '@mui/material/colors';
 import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, CreateTodolistAC, DeleteTododlistAC, todolistsReducer } from './model/todolists-reducer'
-import { DeleteTaskAC, tasksReducer } from './model/tasks-reducer'
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, CreateTaskAC, CreateTodolistTaskAC, DeleteTaskAC, tasksReducer } from './model/tasks-reducer'
 
 export type Todolist = {
   id: string
@@ -69,23 +69,29 @@ export const App = () => {
     ],
   }
 
-  const [tasks, dispatchTask] = useReducer(tasksReducer, initialStateTasks)
+  const [tasks, dispatchTasks] = useReducer(tasksReducer, initialStateTasks)
 
   // tasks
   // C
-  const createTask = (todolistId: string, title: string) => {
+ /*  const createTask = (todolistId: string, title: string) => {
     const newTask = { id: v1(), title, isDone: false }
     setTasks({ ...tasks, [todolistId]: [newTask, ...tasks[todolistId]] })
+  } */
+  const createTask = (todolistId: string, title: string) => {
+    const action = CreateTaskAC({todolistId, title})
+    dispatchTasks(action)
   }
 
   // U1
   const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {
-    setTasks({ ...tasks, [todolistId]: tasks[todolistId].map(task => task.id == taskId ? { ...task, isDone } : task) })
+    const action = ChangeTaskStatusAC({todolistId, taskId, isDone})
+    dispatchTasks(action)
   }
 
   // U2
   const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-    setTasks({ ...tasks, [todolistId]: tasks[todolistId].map(task => task.id == taskId ? { ...task, title } : task) })
+    const action = ChangeTaskTitleAC({todolistId, taskId, title})
+    dispatchTasks(action)
   }
 
   // D
@@ -94,7 +100,7 @@ export const App = () => {
   } */
   const deleteTask = (todolistId: string, taskId: string) => {
     const action = DeleteTaskAC({todolistId, taskId})
-    dispatchTask(action)
+    dispatchTasks(action)
   }
 
   //todolists
@@ -102,8 +108,10 @@ export const App = () => {
   const createTodolist = (title: string) => {
     const action = CreateTodolistAC(title)
     dispatchTodolists(action)
-    setTasks({ ...tasks, [action.payload.id]: [] })
-    //dispatchTasks(action)
+ /*    setTasks({ ...tasks, [action.payload.id]: [] }) */
+
+    const actionTask = CreateTodolistTaskAC(action.payload.id)
+    dispatchTasks(actionTask)
   }
 
   //U1
@@ -119,13 +127,21 @@ export const App = () => {
   }
 
   //D
-  const deleteTodolist = (todolistId: string) => {
+  /* const deleteTodolist = (todolistId: string) => {
     const action = DeleteTododlistAC(todolistId)
     dispatchTodolists(action)
     delete tasks[todolistId]
     setTasks({ ...tasks })
+    dispatchTasks(action)
+  } */
+  const deleteTodolist = (todolistId: string) => {
+    const action = DeleteTododlistAC(todolistId)
+    dispatchTodolists(action)
+    delete tasks[todolistId]
+ /*    setTasks({ ...tasks }) */
     //dispatchTasks(action)
   }
+
 
 
   const [isLightMode, setIsLightMode] = useState(true)
