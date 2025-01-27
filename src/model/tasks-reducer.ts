@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import type { TasksState } from '../App'
 /* import { CreateTodolistActionType, DeleteTododlistActionType } from './todolists-reducer' */
-import { DeleteTododlistActionType } from './todolists-reducer'
+/* import { DeleteTododlistActionType } from './todolists-reducer' */
 
 const initialState: TasksState = {}
 
@@ -16,7 +16,7 @@ export const tasksReducer = (tasks: TasksState = initialState, action: Actions):
         case "delete_todolist": {
             const { id } = action.payload
             delete tasks[id]
-            return tasks
+            return { ...tasks }
         }
         case "delete_task": {
             const { todolistId, taskId } = action.payload     
@@ -46,6 +46,13 @@ export const CreateTodolistTaskAC = (id: string) => (
 )
 
 export type CreateTodolistActionsType = ReturnType<typeof CreateTodolistTaskAC>
+
+//delete task todolist
+export const DeleteTodolistTaskAC = (id: string) => (
+    { type: "delete_todolist", payload: { id }} as const
+)
+
+export type DeleteTododlistActionType = ReturnType<typeof DeleteTodolistTaskAC>
 
 // delete
 export const DeleteTaskAC = (payload: { todolistId: string, taskId: string}) => (

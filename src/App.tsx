@@ -13,7 +13,7 @@ import { NavButton } from './NavButton'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, amber } from '@mui/material/colors';
 import { ChangeTodolistFilterAC, ChangeTodolistTitleAC, CreateTodolistAC, DeleteTododlistAC, todolistsReducer } from './model/todolists-reducer'
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, CreateTaskAC, CreateTodolistTaskAC, DeleteTaskAC, tasksReducer } from './model/tasks-reducer'
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, CreateTaskAC, CreateTodolistTaskAC, DeleteTaskAC, DeleteTodolistTaskAC, tasksReducer } from './model/tasks-reducer'
 
 export type Todolist = {
   id: string
@@ -138,8 +138,9 @@ export const App = () => {
     const action = DeleteTododlistAC(todolistId)
     dispatchTodolists(action)
     delete tasks[todolistId]
- /*    setTasks({ ...tasks }) */
-    //dispatchTasks(action)
+
+    const actionTask = DeleteTodolistTaskAC(todolistId)
+    dispatchTasks(actionTask)
   }
 
 
